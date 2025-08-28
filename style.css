@@ -89,50 +89,15 @@ h1 {
   border-radius: 6px;
 }
 
-.toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
-  background: #1a1a24;
-  padding: 10px;
-  border-radius: 6px;
-}
+.toolbar { margin: 10px 20px; background: #12141a; border: 1px solid #1e2230; border-radius: 12px; padding: 10px;
+  display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px; align-items: center; }
 
-.toolbar .col-2, 
-.toolbar .col-3, 
-.toolbar .col-4, 
-.toolbar .col-12 {
-  flex: 1;
-  min-width: 160px;
-  display: flex;
-  flex-direction: column;
-}
+.toolbar .col-4 { grid-column: span 4; } .toolbar .col-3 { grid-column: span 3; } .toolbar .col-2 { grid-column: span 2; } .toolbar .col-12 { grid-column: span 12; }
 
-.toolbar label {
-  font-size: 12px;
-  margin-bottom: 2px;
-  color: #bbb;
-}
-
-.toolbar input {
-  background: #0f0f13;
-  border: 1px solid #444;
-  border-radius: 4px;
-  color: #eee;
-  padding: 4px;
-}
-
-.toolbar button {
-  margin-top: 6px;
-  padding: 4px 8px;
-  border: none;
-  border-radius: 4px;
-  background: #2e804a;
-  color: #fff;
-  cursor: pointer;
-  font-size: 13px;
-}
+.toolbar label { font-size: 12px; color:#b0b6c6; }
+.toolbar input { width: 100%; padding: 6px 8px; background: #0f121a; color: #eaeaea; border:1px solid #273047; border-radius: 8px; font-size: 12px; }
+.toolbar button { padding: 8px 10px; background: #1a2030; color: #cfe1ff; border: 1px solid #2a3550; border-radius: 8px; cursor: pointer; }
+.toolbar button:hover { background: #202a44; }
 
 .status {
   font-size: 12px;
