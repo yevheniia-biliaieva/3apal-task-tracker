@@ -1,0 +1,50 @@
+{
+  "lanes": [
+    { "id": "lane_strategy", "title": "🧱 Стратегія та бренд-основа", "order": 1 },
+    { "id": "lane_identity", "title": "🎨 Візуальна айдентика", "order": 2 },
+    { "id": "lane_prod_pre", "title": "🔥 Продукт і виробництво (Pre-drop)", "order": 3 },
+    { "id": "lane_mkt_pre", "title": "📢 Маркетинг (Pre-drop)", "order": 4 }
+  ],
+  "tasks": [
+    {
+      "id": "brand_doc",
+      "title": "Бренд-документ",
+      "lane": "lane_strategy",
+      "deps": [],
+      "raci": { "R": "BD", "A": "BD", "C": "CEO", "I": "команда" },
+      "order": 1
+    },
+    {
+      "id": "positioning",
+      "title": "Позиціонування (one-liner, value props)",
+      "lane": "lane_strategy",
+      "deps": ["brand_doc"],
+      "raci": { "R": "CEO", "A": "CEO", "C": "COO", "I": "команда" },
+      "order": 2
+    },
+    {
+      "id": "logo_system",
+      "title": "Лого-система (версії)",
+      "lane": "lane_identity",
+      "deps": ["brand_doc","positioning"],
+      "raci": { "R": "Brand Designer", "A": "CEO", "C": "CEO", "I": "CEO" },
+      "order": 1
+    },
+    {
+      "id": "lighter_designs",
+      "title": "50+ дизайнів запальничок",
+      "lane": "lane_prod_pre",
+      "deps": [],
+      "raci": { "R": "Graphic Designer", "A": "CEO", "C": "Brand Designer", "I": "команда" },
+      "order": 1
+    },
+    {
+      "id": "content_strategy",
+      "title": "Контент-стратегія",
+      "lane": "lane_mkt_pre",
+      "deps": ["brand_doc"],
+      "raci": { "R": "SMM", "A": "CEO", "C": "CEO, Sales", "I": "CEO" },
+      "order": 1
+    }
+  ]
+}
