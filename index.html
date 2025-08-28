@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3apal — Roadmap</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>3apal — Roadmap</h1>
+
+  <!-- Панель GitHub Sync -->
+  <div class="toolbar">
+    <div class="col-4">
+      <label>Repo (owner/name)</label>
+      <input id="gh_repo" placeholder="owner/name">
+    </div>
+    <div class="col-2">
+      <label>Branch</label>
+      <input id="gh_branch" placeholder="main" value="main">
+    </div>
+    <div class="col-3">
+      <label>Tasks path</label>
+      <input id="gh_tasks_path" placeholder="tasks.json" value="tasks.json">
+    </div>
+    <div class="col-3">
+      <label>State path</label>
+      <input id="gh_state_path" placeholder="state.json" value="state.json">
+    </div>
+    <div class="col-12">
+      <label>Token (fine-grained)</label>
+      <input id="gh_token" placeholder="github_pat_***" type="password">
+    </div>
+    <div class="col-12">
+      <button id="btn_load">Load from GitHub</button>
+      <button id="btn_save">Save to GitHub</button>
+      <span class="status" id="gh_status"></span>
+    </div>
+  </div>
+
+  <!-- Легенда -->
+  <div class="legend">
+    Правий клік по картці — <b>виконано / скасувати</b>.
+    <div style="margin-top:6px; font-size:12px; color:#c0c6d4;">
+      <span style="display:inline-block; width:14px; height:14px; background:#0f1a12; border:1px solid #2e804a; margin-right:4px; vertical-align:middle;"></span>
+      Виконано (done) — зелений<br/>
+      <span style="display:inline-block; width:14px; height:14px; background:#15121f; border:1px solid #6a5acd; margin-right:4px; vertical-align:middle;"></span>
+      Ready-to-start — фіолетовий (усі залежності виконані або відсутні)
+    </div>
+  </div>
+
+  <!-- Контейнер для роадмапи -->
+  <div id="roadmap" class="wrapper"></div>
+
+  <!-- Модалка для створення/редагування таски -->
+  <div id="taskModal" class="modal hidden">
+    <div class="modal-content">
+      <h3 id="taskModalTitle">Нова таска</h3>
+      <label>Назва</label>
+      <input id="task_title">
+      <label>ID</label>
+      <input id="task_id">
+      <label>Lane</label>
+      <select id="task_lane"></select>
+      <label>Залежності</label>
+      <select id="task_deps" multiple></select>
+      <label>RACI</label>
+      <input id="task_raci_R" placeholder="R">
+      <input id="task_raci_A" placeholder="A">
+      <input id="task_raci_C" placeholder="C">
+      <input id="task_raci_I" placeholder="I">
+      <div class="modal-actions">
+        <button id="taskSaveBtn">Зберегти</button>
+        <button id="taskCancelBtn">Скасувати</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
