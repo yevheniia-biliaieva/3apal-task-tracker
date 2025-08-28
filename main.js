@@ -154,67 +154,6 @@ document.addEventListener('contextmenu',e=>{
   if(card){e.preventDefault();toggleDone(card.id);}
 },true);
 
-// ================== Task CRUD ==================
-function openTaskModal({mode='new',laneId=null,task=null}={}){
-  const modal=document.getElementById('taskModal');
-  modal.classList.remove('hidden');
-  document.getElementById('taskModalTitle').textContent=mode==='edit'?"Редагувати таску":"Нова таска";
-
-  const laneSel=document.getElementById('task_lane');
-  laneSel.innerHTML="";
-  TASKS.lanes.forEach(l=>{
-    const opt=document.createElement('option');
-    opt.value=l.id;opt.textContent=l.title;
-    if((task&&task.lane===l.id)||(laneId===l.id)) opt.selected=true;
-    laneSel.appendChild(opt);
-  });
-
-  const depSel=document.getElementById('task_deps');
-  depSel.innerHTML="";
-  TASKS.tasks.forEach(t=>{
-    const opt=document.createElement('option');
-    opt.value=t.id;opt.textContent=t.title;
-    if(task&&(task.deps||[]).includes(t.id)) opt.selected=true;
-    depSel.appendChild(opt);
-  });
-
-  document.getElementById('task_title').value=task?task.title:"";
-  document.getElementById('task_id').value=task?task.id:"";
-  document.getElementById('task_raci_R').value=task?task.raci.R:"";
-  document.getElementById('task_raci_A').value=task?task.raci.A:"";
-  document.getElementById('task_raci_C').value=task?task.raci.C:"";
-  document.getElementById('task_raci_I').value=task?task.raci.I:"";
-
-  document.getElementById('taskSaveBtn').onclick=()=>{
-    const newTask={
-      id:document.getElementById('task_id').value.trim(),
-      title:document.getElementById('task_title').value.trim(),
-      lane:document.getElementById('task_lane').value,
-      deps:Array.from(depSel.selectedOptions).map(o=>o.value),
-      raci:{
-        R:document.getElementById('task_raci_R').value,
-        A:document.getElementById('task_raci_A').value,
-        C:document.getElementById('task_raci_C').value,
-        I:document.getElementById('task_raci_I').value,
-      },
-      order:(task?task.order:(TASKS.tasks.filter(x=>x.lane===laneSel.value).length+1))
-    };
-    if(mode==='edit'){const idx=TASKS.tasks.findIndex(t=>t.id===task.id);TASKS.tasks[idx]=newTask;}
-    else{TASKS.tasks.push(newTask);}
-    closeTaskModal();
-    renderTasks();
-    autoSaveTasks();
-  };
-  document.getElementById('taskCancelBtn').onclick=closeTaskModal;
-}
-function closeTaskModal(){document.getElementById('taskModal').classList.add('hidden');}
-function deleteTask(id){
-  if(!confirm("Видалити таску "+id+"?")) return;
-  TASKS.tasks=TASKS.tasks.filter(t=>t.id!==id);
-  renderTasks();
-  autoSaveTasks();
-}
-
 // ================== GitHub Sync ==================
 const els=()=>({
   repo:document.getElementById('gh_repo'),
@@ -226,22 +165,11 @@ const els=()=>({
   save:document.getElementById('btn_save'),
   status:document.getElementById('gh_status')
 });
-function cfgGet(){try{return JSON.parse(localStorage.getItem('ghSyncCfg.v1')||'{}');}catch(e){return{};}}
-function cfgSet(o){localStorage.setItem('ghSyncCfg.v1',JSON.stringify(o));}
-function readCfg(){
-  const $=els();
-  const repo=$.repo.value.trim();
-  const branch=$.branch.value.trim()||'main';
-  const tasksPath=$.tasksPath.value.trim()||'tasks.json';
-  const statePath=$.statePath.value.trim()||'state.json';
-  const token=$.token.value.trim();
-  cfgSet({repo,branch,tasksPath,statePath,token});
-  return {repo,branch,tasksPath,statePath,token};
-}
 function showStatus(msg,ok=true){const $=els();$.status.textContent=msg;$.status.style.color=ok?'#9cc7a7':'#ff9f9f';}
+
 async function ghGet(repo,path,ref,token){
   const url=`https://api.github.com/repos/${repo}/contents/${encodeURIComponent(path)}?ref=${encodeURIComponent(ref)}`;
-  const headers={'Accept':'application/vnd.github+json','Cache-Control':'no-cache'};
+  const headers={'Accept':'application/vnd.github+json'};
   if(token) headers['Authorization']=`Bearer ${token}`;
   const r=await fetch(url,{headers});
   if(!r.ok) throw new Error('HTTP '+r.status);
@@ -260,27 +188,29 @@ async function ghPut(repo,path,branch,token,content,sha){
   if(!r.ok){const t=await r.text();throw new Error('HTTP '+r.status+': '+t);}
   return r.json();
 }
-async function loadAll({quiet=false}={}){
+
+async function loadAll(){
   const {repo,branch,tasksPath,statePath,token}=readCfg();
-  if(!repo||!branch||!tasksPath||!statePath||!token){showStatus("Заповни всі поля",false);return;}
+  if(!repo||!branch||!tasksPath||!statePath){showStatus("Заповни всі поля",false);return;}
   try{
     showStatus("Завантажую...");
     const tdata=await ghGet(repo,tasksPath,branch,token);
-    const tasks=JSON.parse(b64decode(tdata.content));
+    const tasks=JSON.parse(b64decode((tdata.content||"").replace(/\n/g,"")));
     TASKS=tasks;
     const sdata=await ghGet(repo,statePath,branch,token);
-    let json=JSON.parse(b64decode(sdata.content));
+    let json=JSON.parse(b64decode((sdata.content||"").replace(/\n/g,"")));
     if(Array.isArray(json)) DONE=json; else if(json && Array.isArray(json.done)) DONE=json.done; else DONE=[];
     buildUI();applyDoneUI(new Set(DONE));
     showStatus("Завантажено!");
   }catch(e){showStatus("Помилка завантаження: "+e.message,false);}
 }
+
 async function saveAll(){
   const {repo,branch,tasksPath,statePath,token}=readCfg();
   if(!repo||!branch||!tasksPath||!statePath||!token){showStatus("Заповни всі поля",false);return;}
   try{
     showStatus("Зберігаю...");
-    // отримуємо sha перед оновленням
+    // підтягуємо sha для обох файлів
     let tsha=null,ssha=null;
     try{const i=await ghGet(repo,tasksPath,branch,token);tsha=i.sha;}catch(e){}
     try{const i=await ghGet(repo,statePath,branch,token);ssha=i.sha;}catch(e){}
@@ -289,14 +219,22 @@ async function saveAll(){
     showStatus("Збережено!");
   }catch(e){showStatus("Помилка збереження: "+e.message,false);}
 }
-let autoSaveTimer=null;
-function autoSaveTasks(){clearTimeout(autoSaveTimer);autoSaveTimer=setTimeout(saveAll,1000);}
-function autoSaveState(){clearTimeout(autoSaveTimer);autoSaveTimer=setTimeout(saveAll,1000);}
+
+function readCfg(){
+  const $=els();
+  return {
+    repo:$.repo.value.trim(),
+    branch:$.branch.value.trim()||'main',
+    tasksPath:$.tasksPath.value.trim()||'tasks.json',
+    statePath:$.statePath.value.trim()||'state.json',
+    token:$.token.value.trim()
+  };
+}
+
+// авто-оновлення раз у хвилину
+setInterval(()=>loadAll(),60000);
+
 document.addEventListener('DOMContentLoaded',()=>{
   els().load.onclick=()=>loadAll();
   els().save.onclick=()=>saveAll();
-  const c=cfgGet();
-  if(c.repo){els().repo.value=c.repo;els().branch.value=c.branch;els().tasksPath.value=c.tasksPath;els().statePath.value=c.statePath;els().token.value=c.token;}
-  if(c.repo && c.token) loadAll({quiet:true});
-  setInterval(()=>loadAll({quiet:true}),60000);
 });
