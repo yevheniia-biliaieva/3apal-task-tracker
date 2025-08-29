@@ -155,16 +155,16 @@ document.addEventListener('contextmenu',e=>{
 },true);
 
 // ================== GitHub Sync ==================
-const els=()=>({
-  repo:document.getElementById('gh_repo'),
-  branch:document.getElementById('gh_branch'),
-  tasksPath:document.getElementById('gh_tasks_path'),
-  statePath:document.getElementById('gh_state_path'),
-  token:document.getElementById('gh_token'),
-  load:document.getElementById('btn_load'),
-  save:document.getElementById('btn_save'),
-  status:document.getElementById('gh_status')
-});
+function els(){ return {
+  repo: document.getElementById('gh_repo'),
+  branch: document.getElementById('gh_branch'),
+  tasks: document.getElementById('gh_tasks'),   // <--- додали
+  path: document.getElementById('gh_path'),
+  token: document.getElementById('gh_token'),
+  load: document.getElementById('btn_load'),
+  save: document.getElementById('btn_save'),
+  status: document.getElementById('gh_status'),
+};}
 function showStatus(msg,ok=true){const $=els();$.status.textContent=msg;$.status.style.color=ok?'#9cc7a7':'#ff9f9f';}
 
 async function ghGet(repo,path,ref,token){
@@ -221,15 +221,15 @@ async function saveAll(){
 }
 
 function readCfg(){
-  const $=els();
-  return {
-    repo:$.repo.value.trim(),
-    branch:$.branch.value.trim()||'main',
-    tasksPath:$.tasksPath.value.trim()||'tasks.json',
-    statePath:$.statePath.value.trim()||'state.json',
-    token:$.token.value.trim()
-  };
+  const repo = els().repo.value.trim();
+  const branch = els().branch.value.trim() || 'main';
+  const tasks = els().tasks.value.trim() || 'tasks.json';   // <--- додали
+  const path = els().path.value.trim() || 'state.json';
+  const token = els().token.value.trim();
+  cfgSet({repo, branch, tasks, path, token});
+  return {repo, branch, tasks, path, token};
 }
+
 
 // авто-оновлення раз у хвилину
 setInterval(()=>loadAll(),60000);
