@@ -259,11 +259,15 @@ async function saveAll(){
 function autoSaveState(){ saveAll(); }
 
 function readCfg(){
-  const repo = els().repo.value.trim();
-  const branch = els().branch.value.trim() || 'main';
-  const tasks = els().tasks.value.trim() || 'tasks.json';
-  const path = els().path.value.trim() || 'state.json';
-  const token = els().token.value.trim();
+  const $ = els();
+  if (!$.repo || !$.branch || !$.tasks || !$.path || !$.token) {
+    throw new Error("Не знайдено один із інпутів у toolbar");
+  }
+  const repo = $.repo.value.trim();
+  const branch = $.branch.value.trim() || 'main';
+  const tasks = $.tasks.value.trim() || 'tasks.json';
+  const path = $.path.value.trim() || 'state.json';
+  const token = $.token.value.trim();
   return {repo, branch, tasks, path, token};
 }
 
