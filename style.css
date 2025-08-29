@@ -6,6 +6,12 @@ body {
 	padding: 20px;
 }
 
+a {
+	display: inline-block;
+	text-decoration: none;
+	color: inherit;
+}
+
 h1 {
 	margin-bottom: 20px;
 }
@@ -155,6 +161,15 @@ h1 {
 	padding: 10px;
 	background: #1a1a24;
 	border-radius: 6px;
+}
+
+.edit,
+.del {
+	margin-top: 5px;
+	font-size: 14px;
+	text-align: center;
+	width: 20px;
+	height: 20px;
 }
 
 /* ---- Modal ---- */
