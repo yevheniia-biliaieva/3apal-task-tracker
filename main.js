@@ -102,23 +102,24 @@ function renderTasks() {
 }
 
 function makeLinks() {
-	document.querySelectorAll('.task').forEach((card) => {
-		const id = card.id;
-		const depsWrap = card.querySelector('.deps-list');
-		depsWrap.innerHTML = '';
-		const deps = (card.dataset.deps || '').split(',').filter(Boolean);
-		deps.forEach((d, idx) => {
-			const span = document.createElement('span');
-			span.className = 'linklike';
-			span.textContent = TASKS.tasks.find((t) => t.id === d)?.title || d;
-			span.onclick = () => scrollToTask(d);
-			span.setAttribute('data-dep-src', d);
-			depsWrap.appendChild(span);
-			if (idx < deps.length - 1) {
-				depsWrap.appendChild(document.createTextNode(', '));
-			}
-		});
-});
+  document.querySelectorAll('.task').forEach((card) => {
+    const id = card.id;
+    const depsWrap = card.querySelector('.deps-list');
+    depsWrap.innerHTML = '';
+    const deps = (card.dataset.deps || '').split(',').filter(Boolean);
+    deps.forEach((d, idx) => {
+      const span = document.createElement('span');
+      span.className = 'linklike';
+      span.textContent = TASKS.tasks.find((t) => t.id === d)?.title || d;
+      span.onclick = () => scrollToTask(d);
+      span.setAttribute('data-dep-src', d);
+      depsWrap.appendChild(span);
+      if (idx < deps.length - 1) {
+        depsWrap.appendChild(document.createTextNode(', '));
+      }
+    });
+  }); 
+}
 
 function scrollToTask(id) {
 	const el = document.getElementById(id);
