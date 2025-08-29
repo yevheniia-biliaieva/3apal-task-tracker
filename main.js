@@ -118,19 +118,6 @@ function makeLinks() {
 				depsWrap.appendChild(document.createTextNode(', '));
 			}
 		});
-		const unlWrap = card.querySelector('.unlocks-list');
-		unlWrap.innerHTML = '';
-		(revMap[id] || []).forEach((u, idx) => {
-			const span = document.createElement('span');
-			span.className = 'linklike';
-			span.textContent = TASKS.tasks.find((t) => t.id === u)?.title || u;
-			span.onclick = () => scrollToTask(u);
-			unlWrap.appendChild(span);
-			if (idx < revMap[id].length - 1) {
-				unlWrap.appendChild(document.createTextNode(', '));
-			}
-		});
-	});
 }
 
 function scrollToTask(id) {
