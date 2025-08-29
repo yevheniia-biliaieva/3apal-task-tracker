@@ -190,20 +190,22 @@ async function ghPut(repo,path,branch,token,content,sha){
 }
 
 async function loadAll(){
-  const {repo,branch,tasksPath,statePath,token}=readCfg();
-  if(!repo||!branch||!tasksPath||!statePath){showStatus("Заповни всі поля",false);return;}
-  try{
-    showStatus("Завантажую...");
-    const tdata=await ghGet(repo,tasksPath,branch,token);
-    const tasks=JSON.parse(b64decode((tdata.content||"").replace(/\n/g,"")));
-    TASKS=tasks;
-    const sdata=await ghGet(repo,statePath,branch,token);
-    let json=JSON.parse(b64decode((sdata.content||"").replace(/\n/g,"")));
-    if(Array.isArray(json)) DONE=json; else if(json && Array.isArray(json.done)) DONE=json.done; else DONE=[];
-    buildUI();applyDoneUI(new Set(DONE));
-    showStatus("Завантажено!");
-  }catch(e){showStatus("Помилка завантаження: "+e.message,false);}
+  const {repo, branch, tasks, path, token} = readCfg();
+  
+  // 1. завантажуємо tasks.json
+  const tasksApi = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(tasks)}?ref=${encodeURIComponent(branch)}`;
+  const tasksData = await ghFetchJSON(tasksApi, { headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' } });
+  const tasksJson = JSON.parse(atob((tasksData.content || '').replace(/\n/g,'')));
+  renderTasks(tasksJson); // функція яка будує UI
+
+  // 2. завантажуємо state.json
+  const stateApi = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(path)}?ref=${encodeURIComponent(branch)}`;
+  const stateData = await ghFetchJSON(stateApi, { headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' } });
+  const stateJson = JSON.parse(atob((stateData.content || '').replace(/\n/g,'')));
+  setDone(stateJson.done || []); 
+  window.__applyDoneUI && window.__applyDoneUI();
 }
+
 
 async function saveAll(){
   const {repo,branch,tasksPath,statePath,token}=readCfg();
