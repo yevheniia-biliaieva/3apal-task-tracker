@@ -1,191 +1,217 @@
 body {
-  background: #0f0f13;
-  color: #e0e0e0;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 20px;
+	background: #0f0f13;
+	color: #e0e0e0;
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 20px;
 }
 
 h1 {
-  margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 /* ----- Toolbar ----- */
-.toolbar { 
-  margin: 10px 0 20px 0;
-  background: #12141a;
-  border: 1px solid #1e2230;
-  border-radius: 12px;
-  padding: 16px;
-  display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px; 
-  align-items: center; 
+.toolbar {
+	margin: 10px 0 20px 0;
+	background: #12141a;
+	border: 1px solid #1e2230;
+	border-radius: 12px;
+	padding: 16px;
+
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
 }
 
-.toolbar label { 
-  font-size: 12px; 
-  color:#b0b6c6; 
-  display: block;
-  margin-bottom: 4px;
+.field {
+	flex: 1 1 200px; /* мінімум 200px, росте */
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
 }
 
-.toolbar input { 
-  width: 100%; 
-  padding: 6px 8px; 
-  background: #0f121a; 
-  color: #eaeaea; 
-  border:1px solid #273047; 
-  border-radius: 8px; 
-  font-size: 12px; 
+.field.last {
+	flex: 2 1 300px; /* останнє поле росте вдвічі */
 }
 
-.toolbar button { 
-  padding: 8px 10px; 
-  background: #1a2030; 
-  color: #cfe1ff; 
-  border: 1px solid #2a3550; 
-  border-radius: 8px; 
-  cursor: pointer; 
+.field label {
+	font-size: 12px;
+	color: #b0b6c6;
+	display: block;
 }
 
-.toolbar button:hover { background: #202a44; }
+.field input {
+	/* width: 100%; */
+	padding: 6px 8px;
+	background: #0f121a;
+	color: #eaeaea;
+	border: 1px solid #273047;
+	border-radius: 8px;
+	font-size: 12px;
+}
+
+.toolbar-actions {
+	flex: 1 1 100%;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	align-items: center;
+}
+
+.toolbar-actions button {
+	padding: 8px 12px;
+	background: #1a2030;
+	color: #cfe1ff;
+	border: 1px solid #2a3550;
+	border-radius: 8px;
+	cursor: pointer;
+}
+
+.toolbar-actions button:hover {
+	background: #202a44;
+}
 
 .status {
-  font-size: 12px;
-  margin-left: 8px;
-  color: #9cc7a7;
+	font-size: 12px;
+	color: #9cc7a7;
 }
 
 /* ----- Lanes & Tasks ----- */
 .wrapper {
-  display: flex;
-  flex-wrap: wrap;   /* тепер колонки переносяться вниз */
-  gap: 20px;
-  padding-bottom: 40px;
+	display: flex;
+	flex-wrap: wrap; /* тепер колонки переносяться вниз */
+	gap: 20px;
+	padding-bottom: 40px;
 }
 
 .lane {
-  background: #15121f;
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 10px;
-  flex: 1 1 300px; /* займає мінімум 300px, далі росте */
-  max-width: 400px;
+	background: #15121f;
+	border: 1px solid #333;
+	border-radius: 8px;
+	padding: 10px;
+	flex: 1 1 300px; /* займає мінімум 300px, далі росте */
+	max-width: 400px;
 }
 
 .lane h2 {
-  font-size: 16px;
-  margin: 0 0 10px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+	font-size: 16px;
+	margin: 0 0 10px 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .lane button.add-task {
-  background: transparent;
-  border: 1px dashed #666;
-  color: #999;
-  padding: 2px 6px;
-  font-size: 12px;
-  border-radius: 6px;
-  cursor: pointer;
+	background: transparent;
+	border: 1px dashed #666;
+	color: #999;
+	padding: 2px 6px;
+	font-size: 12px;
+	border-radius: 6px;
+	cursor: pointer;
 }
 
 .task {
-  background: #1e1c2a;
-  border: 1px solid #444;
-  border-radius: 6px;
-  padding: 8px;
-  margin-bottom: 8px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.2s, border 0.2s;
+	background: #1e1c2a;
+	border: 1px solid #444;
+	border-radius: 6px;
+	padding: 8px;
+	margin-bottom: 8px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background 0.2s, border 0.2s;
 }
 
 .task .title {
-  font-weight: bold;
-  margin-bottom: 4px;
+	font-weight: bold;
+	margin-bottom: 4px;
 }
 
 .task .raci {
-  font-size: 12px;
-  color: #aaa;
-  margin-bottom: 4px;
+	font-size: 12px;
+	color: #aaa;
+	margin-bottom: 4px;
 }
 
-.task .deps, .task .unlocks {
-  font-size: 12px;
-  color: #888;
+.task .deps,
+.task .unlocks {
+	font-size: 12px;
+	color: #888;
 }
 
 .task.done {
-  background: #0f1a12;
-  border-color: #2e804a;
+	background: #0f1a12;
+	border-color: #2e804a;
 }
 
 .task.ready {
-  background: #15121f;
-  border-color: #6a5acd;
-  box-shadow: 0 0 6px rgba(106,90,205,0.4);
+	background: #15121f;
+	border-color: #6a5acd;
+	box-shadow: 0 0 6px rgba(106, 90, 205, 0.4);
 }
 
 .legend {
-  margin-bottom: 20px;
-  padding: 10px;
-  background: #1a1a24;
-  border-radius: 6px;
+	margin-bottom: 20px;
+	padding: 10px;
+	background: #1a1a24;
+	border-radius: 6px;
 }
 
 /* ---- Modal ---- */
 .modal {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.6);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 100;
 }
 
-.modal.hidden { display: none; }
+.modal.hidden {
+	display: none;
+}
 
 .modal-content {
-  background: #1e1c2a;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  max-width: 90%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+	background: #1e1c2a;
+	padding: 20px;
+	border-radius: 8px;
+	width: 400px;
+	max-width: 90%;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
 }
 
 .modal-content h3 {
-  margin: 0 0 10px 0;
+	margin: 0 0 10px 0;
 }
 
-.modal-content input, .modal-content select {
-  background: #0f0f13;
-  border: 1px solid #444;
-  border-radius: 4px;
-  color: #eee;
-  padding: 6px;
-  font-size: 14px;
+.modal-content input,
+.modal-content select {
+	background: #0f0f13;
+	border: 1px solid #444;
+	border-radius: 4px;
+	color: #eee;
+	padding: 6px;
+	font-size: 14px;
 }
 
 .modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 10px;
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	margin-top: 10px;
 }
 
 .modal-actions button {
-  background: #2e804a;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 6px 12px;
-  cursor: pointer;
+	background: #2e804a;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	padding: 6px 12px;
+	cursor: pointer;
 }
