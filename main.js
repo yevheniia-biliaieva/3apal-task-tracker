@@ -174,31 +174,65 @@ document.addEventListener(
 );
 
 // ================== Task add/edit/delete ==================
-function openTaskModal({ mode = 'add', task = null, laneId = null }) {
-	const title = prompt('Назва таски:', task?.title || '');
-	if (!title) return;
+function openTaskModal({mode='add', task=null, laneId=null}) {
+  const modal = document.getElementById('taskModal');
+  modal.classList.remove('hidden');
 
-	if (mode === 'edit') {
-		task.title = title;
-	} else {
-		const newTask = {
-			id: 'task_' + Date.now(),
-			title,
-			lane: laneId,
-			order: TASKS.tasks.length + 1,
-			deps: [],
-			raci: { R: '', A: '', C: '', I: '' },
-		};
-		TASKS.tasks.push(newTask);
-	}
-	buildUI();
-	autoSaveState();
-}
+  document.getElementById('taskModalTitle').textContent =
+    mode === 'edit' ? 'Редагувати таску' : 'Нова таска';
 
-function deleteTask(id) {
-	TASKS.tasks = TASKS.tasks.filter((t) => t.id !== id);
-	buildUI();
-	autoSaveState();
+  // Заповнюємо поля
+  document.getElementById('task_title').value = task?.title || '';
+  document.getElementById('task_id').value = task?.id || ('task_' + Date.now());
+  document.getElementById('task_lane').value = task?.lane || laneId || '';
+  document.getElementById('task_raci_R').value = task?.raci.R || '';
+  document.getElementById('task_raci_A').value = task?.raci.A || '';
+  document.getElementById('task_raci_C').value = task?.raci.C || '';
+  document.getElementById('task_raci_I').value = task?.raci.I || '';
+
+  // Заповнення залежностей
+  const depsSelect = document.getElementById('task_deps');
+  depsSelect.innerHTML = '';
+  TASKS.tasks.forEach(t => {
+    if (task && t.id === task.id) return; // не можна залежати від себе
+    const opt = document.createElement('option');
+    opt.value = t.id;
+    opt.textContent = t.title;
+    if (task?.deps?.includes(t.id)) opt.selected = true;
+    depsSelect.appendChild(opt);
+  });
+
+  // Обробка кнопок
+  document.getElementById('taskSaveBtn').onclick = () => {
+    const newTask = {
+      id: document.getElementById('task_id').value,
+      title: document.getElementById('task_title').value,
+      lane: document.getElementById('task_lane').value,
+      deps: Array.from(depsSelect.selectedOptions).map(o => o.value),
+      raci: {
+        R: document.getElementById('task_raci_R').value,
+        A: document.getElementById('task_raci_A').value,
+        C: document.getElementById('task_raci_C').value,
+        I: document.getElementById('task_raci_I').value,
+      },
+      order: task?.order || (TASKS.tasks.length+1)
+    };
+
+    if (mode === 'edit') {
+      const idx = TASKS.tasks.findIndex(t => t.id === task.id);
+      TASKS.tasks[idx] = newTask;
+    } else {
+      TASKS.tasks.push(newTask);
+    }
+
+    modal.classList.add('hidden');
+    buildUI();
+    autoSaveState();
+  };
+
+  document.getElementById('taskCancelBtn').onclick = () => {
+    modal.classList.add('hidden');
+  };
 }
 
 // ================== GitHub Sync ==================
