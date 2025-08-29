@@ -118,7 +118,7 @@ function makeLinks() {
 				depsWrap.appendChild(document.createTextNode(', '));
 			}
 		});
-}
+});
 
 function scrollToTask(id) {
 	const el = document.getElementById(id);
