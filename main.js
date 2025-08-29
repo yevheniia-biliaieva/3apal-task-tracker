@@ -79,12 +79,6 @@ function renderTasks() {
 					'<span class="badge">Залежить від:</span> <span class="deps-list"></span>';
 				card.appendChild(deps);
 
-				const unl = document.createElement('div');
-				unl.className = 'unlocks';
-				unl.innerHTML =
-					'<span class="badge">Відкриває:</span> <span class="unlocks-list"></span>';
-				card.appendChild(unl);
-
 				const controls = document.createElement('div');
 				controls.style.fontSize = '11px';
 				controls.innerHTML =
