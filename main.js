@@ -19,13 +19,14 @@ function buildUI(){
 
     const h2=document.createElement('h2');
     h2.textContent=lane.title;
+
     const btn=document.createElement('button');
     btn.className='add-task';
     btn.textContent='➕';
     btn.onclick=()=>openTaskModal({laneId:lane.id});
     h2.appendChild(btn);
-    col.appendChild(h2);
 
+    col.appendChild(h2);
     wrapper.appendChild(col);
   });
 
@@ -45,42 +46,46 @@ function renderTasks(){
     const col=document.querySelector(`.lane[data-id="${lane.id}"]`);
     if(!col) return;
     col.querySelectorAll('.task').forEach(el=>el.remove());
-    TASKS.tasks.filter(t=>t.lane===lane.id).sort((a,b)=>a.order-b.order).forEach(task=>{
-      const card=document.createElement('div');
-      card.className='task';
-      card.id=task.id;
-      card.dataset.title=task.title;
-      card.dataset.deps=(task.deps||[]).join(',');
 
-      const title=document.createElement('div');
-      title.className='title';
-      title.textContent=task.title;
-      card.appendChild(title);
+    TASKS.tasks
+      .filter(t=>t.lane===lane.id)
+      .sort((a,b)=>a.order-b.order)
+      .forEach(task=>{
+        const card=document.createElement('div');
+        card.className='task';
+        card.id=task.id;
+        card.dataset.title=task.title;
+        card.dataset.deps=(task.deps||[]).join(',');
 
-      const raci=document.createElement('div');
-      raci.className='raci';
-      raci.textContent=`R: ${task.raci.R} | A: ${task.raci.A} | C: ${task.raci.C} | I: ${task.raci.I}`;
-      card.appendChild(raci);
+        const title=document.createElement('div');
+        title.className='title';
+        title.textContent=task.title;
+        card.appendChild(title);
 
-      const deps=document.createElement('div');
-      deps.className='deps';
-      deps.innerHTML='<span class="badge">Залежить від:</span> <span class="deps-list"></span>';
-      card.appendChild(deps);
+        const raci=document.createElement('div');
+        raci.className='raci';
+        raci.textContent=`R: ${task.raci.R} | A: ${task.raci.A} | C: ${task.raci.C} | I: ${task.raci.I}`;
+        card.appendChild(raci);
 
-      const unl=document.createElement('div');
-      unl.className='unlocks';
-      unl.innerHTML='<span class="badge">Відкриває:</span> <span class="unlocks-list"></span>';
-      card.appendChild(unl);
+        const deps=document.createElement('div');
+        deps.className='deps';
+        deps.innerHTML='<span class="badge">Залежить від:</span> <span class="deps-list"></span>';
+        card.appendChild(deps);
 
-      const controls=document.createElement('div');
-      controls.style.fontSize="11px";
-      controls.innerHTML='<a href="#" class="edit">✏️</a> <a href="#" class="del">🗑</a>';
-      controls.querySelector('.edit').onclick=(e)=>{e.preventDefault();openTaskModal({mode:'edit',task});};
-      controls.querySelector('.del').onclick=(e)=>{e.preventDefault();deleteTask(task.id);};
-      card.appendChild(controls);
+        const unl=document.createElement('div');
+        unl.className='unlocks';
+        unl.innerHTML='<span class="badge">Відкриває:</span> <span class="unlocks-list"></span>';
+        card.appendChild(unl);
 
-      col.appendChild(card);
-    });
+        const controls=document.createElement('div');
+        controls.style.fontSize="11px";
+        controls.innerHTML='<a href="#" class="edit">✏️</a> <a href="#" class="del">🗑</a>';
+        controls.querySelector('.edit').onclick=(e)=>{e.preventDefault();openTaskModal({mode:'edit',task});};
+        controls.querySelector('.del').onclick=(e)=>{e.preventDefault();deleteTask(task.id);};
+        card.appendChild(controls);
+
+        col.appendChild(card);
+      });
   });
 
   makeLinks();
@@ -154,11 +159,39 @@ document.addEventListener('contextmenu',e=>{
   if(card){e.preventDefault();toggleDone(card.id);}
 },true);
 
+// ================== Task add/edit/delete ==================
+function openTaskModal({mode='add',task=null,laneId=null}){
+  const title=prompt("Назва таски:", task?.title||"");
+  if(!title) return;
+
+  if(mode==='edit'){
+    task.title=title;
+  } else {
+    const newTask={
+      id:"task_"+Date.now(),
+      title,
+      lane:laneId,
+      order:TASKS.tasks.length+1,
+      deps:[],
+      raci:{R:"",A:"",C:"",I:""}
+    };
+    TASKS.tasks.push(newTask);
+  }
+  buildUI();
+  autoSaveState();
+}
+
+function deleteTask(id){
+  TASKS.tasks=TASKS.tasks.filter(t=>t.id!==id);
+  buildUI();
+  autoSaveState();
+}
+
 // ================== GitHub Sync ==================
 function els(){ return {
   repo: document.getElementById('gh_repo'),
   branch: document.getElementById('gh_branch'),
-  tasks: document.getElementById('gh_tasks'),   // <--- додали
+  tasks: document.getElementById('gh_tasks'),
   path: document.getElementById('gh_path'),
   token: document.getElementById('gh_token'),
   load: document.getElementById('btn_load'),
@@ -190,48 +223,49 @@ async function ghPut(repo,path,branch,token,content,sha){
 }
 
 async function loadAll(){
-  const {repo, branch, tasks, path, token} = readCfg();
-  
-  // 1. завантажуємо tasks.json
-  const tasksApi = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(tasks)}?ref=${encodeURIComponent(branch)}`;
-  const tasksData = await ghFetchJSON(tasksApi, { headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' } });
-  const tasksJson = JSON.parse(atob((tasksData.content || '').replace(/\n/g,'')));
-  renderTasks(tasksJson); // функція яка будує UI
+  try{
+    const {repo, branch, tasks, path, token} = readCfg();
 
-  // 2. завантажуємо state.json
-  const stateApi = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(path)}?ref=${encodeURIComponent(branch)}`;
-  const stateData = await ghFetchJSON(stateApi, { headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' } });
-  const stateJson = JSON.parse(atob((stateData.content || '').replace(/\n/g,'')));
-  setDone(stateJson.done || []); 
-  window.__applyDoneUI && window.__applyDoneUI();
+    // tasks.json
+    const tasksData = await ghGet(repo, tasks, branch, token);
+    const tasksJson = JSON.parse(b64decode(tasksData.content || ''));
+    TASKS = tasksJson;
+    buildUI();
+
+    // state.json
+    const stateData = await ghGet(repo, path, branch, token);
+    const stateJson = JSON.parse(b64decode(stateData.content || ''));
+    DONE = stateJson.done || [];
+    applyDoneUI(new Set(DONE));
+
+    showStatus("Дані завантажено!");
+  }catch(e){showStatus("Помилка завантаження: "+e.message,false);}
 }
 
-
 async function saveAll(){
-  const {repo,branch,tasksPath,statePath,token}=readCfg();
-  if(!repo||!branch||!tasksPath||!statePath||!token){showStatus("Заповни всі поля",false);return;}
+  const {repo,branch,tasks,path,token}=readCfg();
+  if(!repo||!branch||!tasks||!path||!token){showStatus("Заповни всі поля",false);return;}
   try{
     showStatus("Зберігаю...");
-    // підтягуємо sha для обох файлів
     let tsha=null,ssha=null;
-    try{const i=await ghGet(repo,tasksPath,branch,token);tsha=i.sha;}catch(e){}
-    try{const i=await ghGet(repo,statePath,branch,token);ssha=i.sha;}catch(e){}
-    await ghPut(repo,tasksPath,branch,token,JSON.stringify(TASKS,null,2),tsha);
-    await ghPut(repo,statePath,branch,token,JSON.stringify({done:DONE,updatedAt:new Date().toISOString()},null,2),ssha);
+    try{const i=await ghGet(repo,tasks,branch,token);tsha=i.sha;}catch(e){}
+    try{const i=await ghGet(repo,path,branch,token);ssha=i.sha;}catch(e){}
+    await ghPut(repo,tasks,branch,token,JSON.stringify(TASKS,null,2),tsha);
+    await ghPut(repo,path,branch,token,JSON.stringify({done:DONE,updatedAt:new Date().toISOString()},null,2),ssha);
     showStatus("Збережено!");
   }catch(e){showStatus("Помилка збереження: "+e.message,false);}
 }
 
+function autoSaveState(){ saveAll(); }
+
 function readCfg(){
   const repo = els().repo.value.trim();
   const branch = els().branch.value.trim() || 'main';
-  const tasks = els().tasks.value.trim() || 'tasks.json';   // <--- додали
+  const tasks = els().tasks.value.trim() || 'tasks.json';
   const path = els().path.value.trim() || 'state.json';
   const token = els().token.value.trim();
-  cfgSet({repo, branch, tasks, path, token});
   return {repo, branch, tasks, path, token};
 }
-
 
 // авто-оновлення раз у хвилину
 setInterval(()=>loadAll(),60000);
