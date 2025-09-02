@@ -16,6 +16,7 @@ function buildUI() {
 	const wrapper = document.getElementById('roadmap');
 	wrapper.innerHTML = '';
 
+	// малюємо звичайні lane
 	TASKS.lanes
 		.sort((a, b) => a.order - b.order)
 		.forEach((lane) => {
@@ -36,8 +37,61 @@ function buildUI() {
 			wrapper.appendChild(col);
 		});
 
+	// додаємо колонку "Без lane"
+	const noLaneTasks = TASKS.tasks.filter((t) => !t.lane);
+	if (noLaneTasks.length > 0) {
+		const col = document.createElement('div');
+		col.className = 'lane';
+		col.dataset.id = 'no_lane';
+
+		const h2 = document.createElement('h2');
+		h2.textContent = 'Без lane';
+		col.appendChild(h2);
+
+		noLaneTasks.forEach((task) => {
+			const card = document.createElement('div');
+			card.className = 'task';
+			card.id = task.id;
+			card.dataset.title = task.title;
+			card.dataset.deps = (task.deps || []).join(',');
+
+			const title = document.createElement('div');
+			title.className = 'title';
+			title.textContent = task.title;
+			card.appendChild(title);
+
+			const raci = document.createElement('div');
+			raci.className = 'raci';
+			raci.textContent = `R: ${task.raci.R} | A: ${task.raci.A} | C: ${task.raci.C} | I: ${task.raci.I}`;
+			card.appendChild(raci);
+
+			const deps = document.createElement('div');
+			deps.className = 'deps';
+			deps.innerHTML = '<span class="badge">Залежить від:</span> <span class="deps-list"></span>';
+			card.appendChild(deps);
+
+			const controls = document.createElement('div');
+			controls.style.fontSize = '11px';
+			controls.innerHTML = '<a href="#" class="edit">✏️</a> <a href="#" class="del">🗑️</a>';
+			controls.querySelector('.edit').onclick = (e) => {
+				e.preventDefault();
+				openTaskModal({ mode: 'edit', task });
+			};
+			controls.querySelector('.del').onclick = (e) => {
+				e.preventDefault();
+				deleteTask(task.id);
+			};
+			card.appendChild(controls);
+
+			col.appendChild(card);
+		});
+
+		wrapper.appendChild(col);
+	}
+
 	renderTasks();
 }
+
 
 function renderTasks() {
 	revMap = {};
