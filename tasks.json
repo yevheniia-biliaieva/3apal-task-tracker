@@ -1314,6 +1314,21 @@
         "I": ""
       },
       "order": 84
+    },
+    {
+      "id": "task_1756816948218",
+      "title": "ваіва",
+      "lane": "lane_strategy",
+      "deps": [
+        "positioning"
+      ],
+      "raci": {
+        "R": "",
+        "A": "",
+        "C": "",
+        "I": ""
+      },
+      "order": 85
     }
   ]
 }
