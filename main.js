@@ -45,7 +45,7 @@ function buildUI() {
 		col.dataset.id = 'no_lane';
 
 		const h2 = document.createElement('h2');
-		h2.textContent = 'Без lane';
+		h2.textContent = 'Без категорії';
 		col.appendChild(h2);
 
 		noLaneTasks.forEach((task) => {
