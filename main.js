@@ -308,6 +308,23 @@ function openTaskModal({mode='add', task=null, laneId=null}) {
   };
 }
 
+// ================== Видалення таски ==================
+function deleteTask(id) {
+  // прибираємо саму таску
+  TASKS.tasks = TASKS.tasks.filter(t => t.id !== id);
+
+  // чистимо залежності у всіх інших тасках
+  TASKS.tasks.forEach(t => {
+    if (t.deps && t.deps.includes(id)) {
+      t.deps = t.deps.filter(d => d !== id);
+    }
+  });
+
+  buildUI();
+  autoSaveState();
+}
+
+
 
 // ================== GitHub Sync ==================
 function els() {
