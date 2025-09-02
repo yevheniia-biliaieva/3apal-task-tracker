@@ -236,16 +236,34 @@ function openTaskModal({mode='add', task=null, laneId=null}) {
   document.getElementById('taskModalTitle').textContent =
     mode === 'edit' ? 'Редагувати таску' : 'Нова таска';
 
-  // Заповнюємо поля
+  // ===== Заповнення select з lane =====
+  const laneSelect = document.getElementById('task_lane');
+  laneSelect.innerHTML = '';
+  TASKS.lanes.forEach(l => {
+    const opt = document.createElement('option');
+    opt.value = l.id;
+    opt.textContent = l.title;
+    if ((task && task.lane === l.id) || (!task && laneId === l.id)) {
+      opt.selected = true;
+    }
+    laneSelect.appendChild(opt);
+  });
+  // опція "Без lane"
+  const optNone = document.createElement('option');
+  optNone.value = '';
+  optNone.textContent = '— без категорії —';
+  if (task && !task.lane) optNone.selected = true;
+  laneSelect.appendChild(optNone);
+
+  // ===== Заповнюємо інші поля =====
   document.getElementById('task_title').value = task?.title || '';
   document.getElementById('task_id').value = task?.id || ('task_' + Date.now());
-  document.getElementById('task_lane').value = task?.lane || laneId || '';
   document.getElementById('task_raci_R').value = task?.raci.R || '';
   document.getElementById('task_raci_A').value = task?.raci.A || '';
   document.getElementById('task_raci_C').value = task?.raci.C || '';
   document.getElementById('task_raci_I').value = task?.raci.I || '';
 
-  // Заповнення залежностей
+  // ===== Заповнення залежностей =====
   const depsSelect = document.getElementById('task_deps');
   depsSelect.innerHTML = '';
   TASKS.tasks.forEach(t => {
@@ -257,7 +275,7 @@ function openTaskModal({mode='add', task=null, laneId=null}) {
     depsSelect.appendChild(opt);
   });
 
-  // Обробка кнопок
+  // ===== Обробка кнопок =====
   document.getElementById('taskSaveBtn').onclick = () => {
     const newTask = {
       id: document.getElementById('task_id').value,
@@ -273,19 +291,12 @@ function openTaskModal({mode='add', task=null, laneId=null}) {
       order: task?.order || (TASKS.tasks.length+1)
     };
 
-   if (mode === 'edit') {
-  const idx = TASKS.tasks.findIndex(t => t.id === task.id);
-  if (idx !== -1) {
-    TASKS.tasks[idx].title = newTask.title;
-    TASKS.tasks[idx].lane = newTask.lane;
-    TASKS.tasks[idx].deps = newTask.deps;
-    TASKS.tasks[idx].raci = newTask.raci;
-    // id і order залишаємо як було
-  }
-} else {
-  TASKS.tasks.push(newTask);
-}
-
+    if (mode === 'edit') {
+      const idx = TASKS.tasks.findIndex(t => t.id === task.id);
+      TASKS.tasks[idx] = newTask;
+    } else {
+      TASKS.tasks.push(newTask);
+    }
 
     modal.classList.add('hidden');
     buildUI();
@@ -296,6 +307,7 @@ function openTaskModal({mode='add', task=null, laneId=null}) {
     modal.classList.add('hidden');
   };
 }
+
 
 // ================== GitHub Sync ==================
 function els() {
