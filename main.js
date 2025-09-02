@@ -6,6 +6,43 @@ function b64decode(str) {
   return decodeURIComponent(escape(atob(str)));
 }
 
+function showSaveBanner(msg, type = "info") {
+  let banner = document.getElementById("saveBanner");
+  if (!banner) {
+    banner = document.createElement("div");
+    banner.id = "saveBanner";
+    banner.style.position = "fixed";
+    banner.style.bottom = "20px";
+    banner.style.right = "20px";
+    banner.style.padding = "10px 16px";
+    banner.style.borderRadius = "8px";
+    banner.style.fontSize = "14px";
+    banner.style.zIndex = "1000";
+    banner.style.boxShadow = "0 2px 6px rgba(0,0,0,0.4)";
+    document.body.appendChild(banner);
+  }
+
+  if (type === "info") {
+    banner.style.background = "#1a2030";
+    banner.style.color = "#cfe1ff";
+  } else if (type === "success") {
+    banner.style.background = "#0f1a12";
+    banner.style.color = "#9cc7a7";
+  } else if (type === "error") {
+    banner.style.background = "#2a0f0f";
+    banner.style.color = "#ff9f9f";
+  }
+
+  banner.textContent = msg;
+  banner.style.display = "block";
+
+  // зникає через 4 секунди
+  setTimeout(() => {
+    if (banner) banner.style.display = "none";
+  }, 4000);
+}
+
+
 // ================== Global state ==================
 let TASKS = { lanes: [], tasks: [] };
 let DONE = [];
@@ -253,16 +290,28 @@ function openTaskModal({ mode = "add", task = null, laneId = null }) {
   document.getElementById("task_raci_I").value = task?.raci.I || "";
 
   // deps select
-  const depsSelect = document.getElementById("task_deps");
-  depsSelect.innerHTML = "";
-  TASKS.tasks.forEach((t) => {
-    if (task && t.id === task.id) return;
-    const opt = document.createElement("option");
-    opt.value = t.id;
-    opt.textContent = t.title;
-    if (task?.deps?.includes(t.id)) opt.selected = true;
-    depsSelect.appendChild(opt);
-  });
+  // ===== Заповнення залежностей =====
+const depsSelect = document.getElementById('task_deps');
+depsSelect.innerHTML = '';
+TASKS.tasks.forEach(t => {
+  if (task && t.id === task.id) return; // не можна залежати від себе
+  const opt = document.createElement('option');
+  opt.value = t.id;
+  opt.textContent = t.title;
+  if (task?.deps?.includes(t.id)) opt.selected = true;
+  depsSelect.appendChild(opt);
+});
+
+// Підключаємо choices.js для красивого мультіселекту з пошуком
+if (window.depsChoices) {
+  window.depsChoices.destroy(); // щоб не дублювався
+}
+window.depsChoices = new Choices(depsSelect, {
+  removeItemButton: true,
+  searchPlaceholderValue: 'Пошук таски...',
+  noResultsText: 'Нічого не знайдено',
+});
+
 
   document.getElementById("taskSaveBtn").onclick = () => {
     const newTask = {
@@ -374,35 +423,22 @@ async function loadAll() {
 async function saveAll() {
   const { repo, branch, tasks, path, token } = readCfg();
   if (!repo || !branch || !tasks || !path || !token) {
-    showStatus("Заповни всі поля", false);
+    showSaveBanner("Заповни всі поля", "error");
     return;
   }
   try {
-    showStatus("Зберігаю...");
-    let tsha = null,
-      ssha = null;
-    try {
-      const i = await ghGet(repo, tasks, branch, token);
-      tsha = i.sha;
-    } catch (e) {}
-    try {
-      const i = await ghGet(repo, path, branch, token);
-      ssha = i.sha;
-    } catch (e) {}
+    showSaveBanner("⏳ Зміни зберігаються в GitHub…", "info");
+    let tsha = null, ssha = null;
+    try { const i = await ghGet(repo, tasks, branch, token); tsha = i.sha; } catch (e) {}
+    try { const i = await ghGet(repo, path, branch, token); ssha = i.sha; } catch (e) {}
     await ghPut(repo, tasks, branch, token, JSON.stringify(TASKS, null, 2), tsha);
-    await ghPut(
-      repo,
-      path,
-      branch,
-      token,
-      JSON.stringify({ done: DONE, updatedAt: new Date().toISOString() }, null, 2),
-      ssha
-    );
-    showStatus("Збережено!");
+    await ghPut(repo, path, branch, token, JSON.stringify({ done: DONE, updatedAt: new Date().toISOString() }, null, 2), ssha);
+    showSaveBanner("✅ Збережено в GitHub", "success");
   } catch (e) {
-    showStatus("Помилка збереження: " + e.message, false);
+    showSaveBanner("❌ Помилка збереження: " + e.message, "error");
   }
 }
+
 
 function autoSaveState() {
   saveAll();
