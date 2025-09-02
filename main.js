@@ -427,17 +427,60 @@ async function saveAll() {
     return;
   }
   try {
-    showSaveBanner("⏳ Зміни зберігаються в GitHub…", "info");
+    showSaveBanner("Зберігаю файли у GitHub…", "info");
+
     let tsha = null, ssha = null;
     try { const i = await ghGet(repo, tasks, branch, token); tsha = i.sha; } catch (e) {}
     try { const i = await ghGet(repo, path, branch, token); ssha = i.sha; } catch (e) {}
+
     await ghPut(repo, tasks, branch, token, JSON.stringify(TASKS, null, 2), tsha);
-    await ghPut(repo, path, branch, token, JSON.stringify({ done: DONE, updatedAt: new Date().toISOString() }, null, 2), ssha);
-    showSaveBanner("✅ Збережено в GitHub", "success");
+    await ghPut(repo, path, branch, token, JSON.stringify({ 
+      done: DONE, 
+      updatedAt: new Date().toISOString() 
+    }, null, 2), ssha);
+
+    // показуємо банер і запускаємо перевірку деплою
+    showSaveBanner("Файли збережено. Чекаємо деплой GitHub Pages… ⏳", "info");
+    waitForDeploy(repo, token);
+
   } catch (e) {
-    showSaveBanner("❌ Помилка збереження: " + e.message, "error");
+    showSaveBanner("Помилка збереження: " + e.message, "error");
   }
 }
+
+async function checkPagesBuild(repo, token) {
+  const url = `https://api.github.com/repos/${repo}/pages/builds/latest`;
+  const headers = { "Accept": "application/vnd.github+json" };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+
+  const res = await fetch(url, { headers });
+  if (!res.ok) throw new Error("GitHub Pages API error: " + res.status);
+  return res.json();
+}
+
+async function waitForDeploy(repo, token) {
+  let tries = 0;
+  while (tries < 20) { // максимум ~100 секунд
+    try {
+      const build = await checkPagesBuild(repo, token);
+      if (build.status === "built") {
+        showSaveBanner("✅ Зміни задеплоєні на GitHub Pages!", "success");
+        return;
+      } else if (build.status === "errored") {
+        showSaveBanner("❌ Помилка деплою GitHub Pages", "error");
+        return;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+
+    tries++;
+    await new Promise(r => setTimeout(r, 60000)); // чекати 60 сек
+  }
+
+  showSaveBanner("⚠️ Деплой займає занадто довго", "error");
+}
+
 
 
 function autoSaveState() {
