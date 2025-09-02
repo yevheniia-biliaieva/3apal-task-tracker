@@ -51,7 +51,9 @@
       "id": "brand_doc",
       "title": "Бренд-документ",
       "lane": "lane_strategy",
-      "deps": [],
+      "deps": [
+        "positioning"
+      ],
       "raci": {
         "R": "BD",
         "A": "BD",
