@@ -78,7 +78,8 @@
       "title": "Контент-піллари",
       "lane": "lane_strategy",
       "deps": [
-        "brand_doc"
+        "brand_doc",
+        "positioning"
       ],
       "raci": {
         "R": "SMM",
