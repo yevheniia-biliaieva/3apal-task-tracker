@@ -1297,6 +1297,7 @@
       "title": "тест",
       "lane": "",
       "deps": [
+        "popup_posters",
         "pouch_patterns"
       ],
       "raci": {
