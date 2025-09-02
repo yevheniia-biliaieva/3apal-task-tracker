@@ -219,12 +219,19 @@ function openTaskModal({mode='add', task=null, laneId=null}) {
       order: task?.order || (TASKS.tasks.length+1)
     };
 
-    if (mode === 'edit') {
-      const idx = TASKS.tasks.findIndex(t => t.id === task.id);
-      TASKS.tasks[idx] = newTask;
-    } else {
-      TASKS.tasks.push(newTask);
-    }
+   if (mode === 'edit') {
+  const idx = TASKS.tasks.findIndex(t => t.id === task.id);
+  if (idx !== -1) {
+    TASKS.tasks[idx].title = newTask.title;
+    TASKS.tasks[idx].lane = newTask.lane;
+    TASKS.tasks[idx].deps = newTask.deps;
+    TASKS.tasks[idx].raci = newTask.raci;
+    // id і order залишаємо як було
+  }
+} else {
+  TASKS.tasks.push(newTask);
+}
+
 
     modal.classList.add('hidden');
     buildUI();
