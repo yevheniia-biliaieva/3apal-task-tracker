@@ -1,4 +1,1293 @@
 {
-  "lanes": [],
-  "tasks": []
+  "lanes": [
+    {
+      "id": "lane_strategy",
+      "title": "🧱 Стратегія та бренд-основа",
+      "order": 1
+    },
+    {
+      "id": "lane_identity",
+      "title": "🎨 Візуальна айдентика",
+      "order": 2
+    },
+    {
+      "id": "lane_prod_pre",
+      "title": "🔥 Продукт і виробництво (Pre-drop)",
+      "order": 3
+    },
+    {
+      "id": "lane_mkt_pre",
+      "title": "📢 Маркетинг (Pre-drop)",
+      "order": 4
+    },
+    {
+      "id": "lane_sales",
+      "title": "💳 Продажі та клієнтський шлях",
+      "order": 5
+    },
+    {
+      "id": "lane_logistics",
+      "title": "📦 Логістика та інфраструктура",
+      "order": 6
+    },
+    {
+      "id": "lane_popup",
+      "title": "🪩 Pop-up (фінальний етап)",
+      "order": 7
+    },
+    {
+      "id": "lane_prod_drop",
+      "title": "🔥 Продукт і виробництво (Drop-month)",
+      "order": 8
+    },
+    {
+      "id": "lane_mkt_drop",
+      "title": "📢 Маркетинг (Drop-month)",
+      "order": 9
+    }
+  ],
+  "tasks": [
+    {
+      "id": "brand_doc",
+      "title": "Бренд-документ",
+      "lane": "lane_strategy",
+      "deps": [],
+      "raci": {
+        "R": "BD",
+        "A": "BD",
+        "C": "CEO",
+        "I": "команда"
+      },
+      "order": 1
+    },
+    {
+      "id": "positioning",
+      "title": "Позиціонування (one-liner, value props)",
+      "lane": "lane_strategy",
+      "deps": [],
+      "raci": {
+        "R": "CEO",
+        "A": "CEO",
+        "C": "COO",
+        "I": "команда"
+      },
+      "order": 2
+    },
+    {
+      "id": "content_pillars",
+      "title": "Контент-піллари",
+      "lane": "",
+      "deps": [
+        "brand_doc"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "CEO",
+        "C": "CEO",
+        "I": "CEO"
+      },
+      "order": 3
+    },
+    {
+      "id": "kpi_launch",
+      "title": "KPI запуску",
+      "lane": "lane_strategy",
+      "deps": [],
+      "raci": {
+        "R": "COO",
+        "A": "COO",
+        "C": "CEO",
+        "I": "SMM, Sales Manager"
+      },
+      "order": 4
+    },
+    {
+      "id": "logo_system",
+      "title": "Лого-система (версії)",
+      "lane": "lane_identity",
+      "deps": [
+        "brand_doc",
+        "positioning"
+      ],
+      "raci": {
+        "R": "Brand Designer",
+        "A": "CEO",
+        "C": "CEO",
+        "I": "CEO"
+      },
+      "order": 1
+    },
+    {
+      "id": "colors_fonts",
+      "title": "Кольори, шрифти, система",
+      "lane": "lane_identity",
+      "deps": [
+        "logo_system"
+      ],
+      "raci": {
+        "R": "Brand Designer",
+        "A": "CEO",
+        "C": "Graphic Designer",
+        "I": "CEO"
+      },
+      "order": 2
+    },
+    {
+      "id": "ig_templates",
+      "title": "Шаблони Instagram",
+      "lane": "lane_identity",
+      "deps": [
+        "colors_fonts",
+        "content_pillars"
+      ],
+      "raci": {
+        "R": "Brand Designer",
+        "A": "Brand Designer",
+        "C": "SMM",
+        "I": "CEO"
+      },
+      "order": 3
+    },
+    {
+      "id": "popup_visuals",
+      "title": "Візуальні матеріали pop-up",
+      "lane": "lane_identity",
+      "deps": [
+        "logo_system",
+        "colors_fonts"
+      ],
+      "raci": {
+        "R": "Brand Designer",
+        "A": "COO",
+        "C": "Graphic Designer",
+        "I": "CEO"
+      },
+      "order": 4
+    },
+    {
+      "id": "icons_patterns",
+      "title": "Іконки, патерни, ілюстрації",
+      "lane": "lane_identity",
+      "deps": [
+        "colors_fonts"
+      ],
+      "raci": {
+        "R": "Graphic Designer",
+        "A": "Brand Designer",
+        "C": "CEO",
+        "I": "SMM"
+      },
+      "order": 5
+    },
+    {
+      "id": "social_pack",
+      "title": "Соцпакет (аватарки, covers)",
+      "lane": "lane_identity",
+      "deps": [
+        "ig_templates"
+      ],
+      "raci": {
+        "R": "Brand Designer",
+        "A": "Brand Designer",
+        "C": "SMM",
+        "I": "CEO"
+      },
+      "order": 6
+    },
+    {
+      "id": "tags_design",
+      "title": "Бірки (дизайн)",
+      "lane": "lane_identity",
+      "deps": [
+        "logo_system",
+        "colors_fonts"
+      ],
+      "raci": {
+        "R": "Brand Designer",
+        "A": "COO",
+        "C": "CEO",
+        "I": "LPA"
+      },
+      "order": 7
+    },
+    {
+      "id": "labels_design",
+      "title": "Лейбли/етикетки (дизайн)",
+      "lane": "lane_identity",
+      "deps": [
+        "logo_system",
+        "colors_fonts"
+      ],
+      "raci": {
+        "R": "Brand Designer",
+        "A": "COO",
+        "C": "Lead Product Artisan",
+        "I": "CEO"
+      },
+      "order": 8
+    },
+    {
+      "id": "inserts_design",
+      "title": "Вкладиші (care-card, дяку-картка, QR)",
+      "lane": "lane_identity",
+      "deps": [
+        "logo_system",
+        "colors_fonts"
+      ],
+      "raci": {
+        "R": "Brand Designer",
+        "A": "COO",
+        "C": "CEO",
+        "I": "CEO"
+      },
+      "order": 9
+    },
+    {
+      "id": "popup_posters",
+      "title": "Афіші/цінники для pop-up",
+      "lane": "lane_identity",
+      "deps": [
+        "popup_visuals"
+      ],
+      "raci": {
+        "R": "Graphic Designer",
+        "A": "COO",
+        "C": "Brand Designer",
+        "I": "CEO"
+      },
+      "order": 10
+    },
+    {
+      "id": "lighter_designs",
+      "title": "50+ дизайнів запальничок",
+      "lane": "lane_prod_pre",
+      "deps": [],
+      "raci": {
+        "R": "Graphic Designer",
+        "A": "CEO",
+        "C": "Brand Designer",
+        "I": "команда"
+      },
+      "order": 1
+    },
+    {
+      "id": "lighter_test_print",
+      "title": "Тест-друк запальничок",
+      "lane": "lane_prod_pre",
+      "deps": [
+        "lighter_designs"
+      ],
+      "raci": {
+        "R": "COO",
+        "A": "COO",
+        "C": "Graphic Designer",
+        "I": "CEO"
+      },
+      "order": 2
+    },
+    {
+      "id": "bag_patterns",
+      "title": "3 лекала сумок",
+      "lane": "lane_prod_pre",
+      "deps": [],
+      "raci": {
+        "R": "Lead Product Artisan",
+        "A": "COO",
+        "C": "CEO",
+        "I": "команда"
+      },
+      "order": 3
+    },
+    {
+      "id": "pouch_patterns",
+      "title": "2 лекала кисетів",
+      "lane": "lane_prod_pre",
+      "deps": [],
+      "raci": {
+        "R": "Lead Product Artisan",
+        "A": "COO",
+        "C": "CEO",
+        "I": "команда"
+      },
+      "order": 4
+    },
+    {
+      "id": "lighter_case_patterns",
+      "title": "2 лекала кейсів для запальничок",
+      "lane": "lane_prod_pre",
+      "deps": [],
+      "raci": {
+        "R": "Lead Product Artisan",
+        "A": "COO",
+        "C": "CEO",
+        "I": "команда"
+      },
+      "order": 5
+    },
+    {
+      "id": "suppliers_search",
+      "title": "Пошук постачальників",
+      "lane": "lane_prod_pre",
+      "deps": [],
+      "raci": {
+        "R": "COO",
+        "A": "COO",
+        "C": "PM",
+        "I": "CEO"
+      },
+      "order": 6
+    },
+    {
+      "id": "samples_sew",
+      "title": "Пошиття семплів",
+      "lane": "lane_prod_pre",
+      "deps": [
+        "pouch_patterns",
+        "bag_patterns",
+        "lighter_case_patterns"
+      ],
+      "raci": {
+        "R": "Lead Product Artisan",
+        "A": "COO",
+        "C": "CEO",
+        "I": "команда"
+      },
+      "order": 7
+    },
+    {
+      "id": "feedback_internal",
+      "title": "Внутрішній фідбек",
+      "lane": "lane_prod_pre",
+      "deps": [
+        "samples_sew"
+      ],
+      "raci": {
+        "R": "PM",
+        "A": "COO",
+        "C": "CEO",
+        "I": "команда"
+      },
+      "order": 8
+    },
+    {
+      "id": "feedback_external",
+      "title": "Зовнішній фідбек + анкета",
+      "lane": "lane_prod_pre",
+      "deps": [
+        "feedback_internal"
+      ],
+      "raci": {
+        "R": "CEO",
+        "A": "CEO",
+        "C": "Sales Manager",
+        "I": "COO, LPA"
+      },
+      "order": 9
+    },
+    {
+      "id": "feedback_table",
+      "title": "Таблиця з фідбеком",
+      "lane": "lane_prod_pre",
+      "deps": [
+        "feedback_external"
+      ],
+      "raci": {
+        "R": "PM",
+        "A": "COO",
+        "C": "CEO",
+        "I": "команда"
+      },
+      "order": 10
+    },
+    {
+      "id": "design_corrections",
+      "title": "Корекції дизайну",
+      "lane": "lane_prod_pre",
+      "deps": [
+        "feedback_table"
+      ],
+      "raci": {
+        "R": "Lead Product Artisan",
+        "A": "COO",
+        "C": "CEO",
+        "I": "команда"
+      },
+      "order": 11
+    },
+    {
+      "id": "product_brief",
+      "title": "Product brief (SKU, маржа)",
+      "lane": "lane_prod_pre",
+      "deps": [
+        "design_corrections",
+        "suppliers_search",
+        "lighter_test_print"
+      ],
+      "raci": {
+        "R": "COO",
+        "A": "COO",
+        "C": "CEO",
+        "I": "Sales, LPA"
+      },
+      "order": 12
+    },
+    {
+      "id": "techpack_bom",
+      "title": "Tech pack + BOM",
+      "lane": "lane_prod_pre",
+      "deps": [
+        "product_brief"
+      ],
+      "raci": {
+        "R": "Lead Product Artisan",
+        "A": "COO",
+        "C": "CEO",
+        "I": "LPA, COO"
+      },
+      "order": 13
+    },
+    {
+      "id": "qcqa_checklist",
+      "title": "QC/QA чекліст",
+      "lane": "lane_prod_pre",
+      "deps": [
+        "techpack_bom"
+      ],
+      "raci": {
+        "R": "COO",
+        "A": "COO",
+        "C": "LPA",
+        "I": "CEO"
+      },
+      "order": 14
+    },
+    {
+      "id": "samples_photos",
+      "title": "Фото семплів",
+      "lane": "lane_prod_pre",
+      "deps": [
+        "samples_sew"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "PM",
+        "C": "Sales",
+        "I": "CEO"
+      },
+      "order": 15
+    },
+    {
+      "id": "backup_vendors",
+      "title": "План резервних підрядників",
+      "lane": "lane_prod_pre",
+      "deps": [
+        "suppliers_search"
+      ],
+      "raci": {
+        "R": "COO",
+        "A": "COO",
+        "C": "LPA",
+        "I": "-"
+      },
+      "order": 16
+    },
+    {
+      "id": "content_strategy",
+      "title": "Контент-стратегія",
+      "lane": "lane_mkt_pre",
+      "deps": [
+        "content_pillars"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "CEO",
+        "C": "CEO, Sales",
+        "I": "CEO"
+      },
+      "order": 1
+    },
+    {
+      "id": "content_plan",
+      "title": "План контенту (до/під час/після)",
+      "lane": "lane_mkt_pre",
+      "deps": [
+        "content_strategy",
+        "ig_templates"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "CEO",
+        "C": "COO",
+        "I": "CEO"
+      },
+      "order": 2
+    },
+    {
+      "id": "visuals_posts",
+      "title": "Візуал для постів",
+      "lane": "lane_mkt_pre",
+      "deps": [
+        "ig_templates"
+      ],
+      "raci": {
+        "R": "Brand Designer",
+        "A": "SMM",
+        "C": "Graphic Designer",
+        "I": "SMM, CEO"
+      },
+      "order": 3
+    },
+    {
+      "id": "copies",
+      "title": "Тексти та описи",
+      "lane": "lane_mkt_pre",
+      "deps": [
+        "content_strategy",
+        "product_brief"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "CEO",
+        "C": "Sales",
+        "I": "CEO"
+      },
+      "order": 4
+    },
+    {
+      "id": "tone",
+      "title": "Tone of Voice у постах",
+      "lane": "lane_mkt_pre",
+      "deps": [
+        "brand_doc"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "CEO",
+        "C": "Sales",
+        "I": "команда"
+      },
+      "order": 5
+    },
+    {
+      "id": "ugc_concept",
+      "title": "UGC концепт",
+      "lane": "lane_mkt_pre",
+      "deps": [
+        "content_strategy"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "SMM",
+        "C": "Sales Manager",
+        "I": "CEO"
+      },
+      "order": 6
+    },
+    {
+      "id": "first_mentions",
+      "title": "Збір перших згадок",
+      "lane": "lane_mkt_pre",
+      "deps": [
+        "ugc_concept"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "CEO",
+        "C": "команда",
+        "I": "Sales"
+      },
+      "order": 7
+    },
+    {
+      "id": "micro_influencers",
+      "title": "Мікроінфлюенсери + інвайти",
+      "lane": "lane_mkt_pre",
+      "deps": [
+        "content_plan"
+      ],
+      "raci": {
+        "R": "Sales Manager",
+        "A": "COO",
+        "C": "SMM",
+        "I": "CEO"
+      },
+      "order": 8
+    },
+    {
+      "id": "promo_kits",
+      "title": "Промо-набір 10 інфлюенсерам",
+      "lane": "lane_mkt_pre",
+      "deps": [
+        "micro_influencers"
+      ],
+      "raci": {
+        "R": "Sales Manager",
+        "A": "COO",
+        "C": "CEO",
+        "I": "CEO"
+      },
+      "order": 9
+    },
+    {
+      "id": "prepr_teaser",
+      "title": "Препіар + тизер-кампанія",
+      "lane": "lane_mkt_pre",
+      "deps": [
+        "content_plan",
+        "visuals_posts"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "CEO",
+        "C": "Sales",
+        "I": "CEO"
+      },
+      "order": 10
+    },
+    {
+      "id": "media_plan",
+      "title": "Медійний план 4 тижні",
+      "lane": "lane_mkt_pre",
+      "deps": [
+        "content_strategy"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "CEO",
+        "C": "Sales",
+        "I": "CEO"
+      },
+      "order": 11
+    },
+    {
+      "id": "shoot_shotlist",
+      "title": "Шотліст зйомки + релізи моделей",
+      "lane": "lane_mkt_pre",
+      "deps": [
+        "content_plan"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "COO",
+        "C": "CEO",
+        "I": "SMM"
+      },
+      "order": 12
+    },
+    {
+      "id": "ref_program",
+      "title": "Реферальна програма",
+      "lane": "lane_mkt_pre",
+      "deps": [
+        "sales_platform"
+      ],
+      "raci": {
+        "R": "Sales Manager",
+        "A": "COO",
+        "C": "SMM",
+        "I": "CEO"
+      },
+      "order": 13
+    },
+    {
+      "id": "crisis_guide",
+      "title": "Кризовий гайд",
+      "lane": "lane_mkt_pre",
+      "deps": [
+        "content_strategy"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "COO",
+        "C": "CEO",
+        "I": "команда"
+      },
+      "order": 14
+    },
+    {
+      "id": "sales_platform",
+      "title": "Запуск платформи продажу",
+      "lane": "lane_sales",
+      "deps": [
+        "product_brief"
+      ],
+      "raci": {
+        "R": "Sales Manager",
+        "A": "PM",
+        "C": "SMM",
+        "I": "CEO"
+      },
+      "order": 1
+    },
+    {
+      "id": "orders_processing",
+      "title": "Прийом і обробка перших замовлень",
+      "lane": "lane_sales",
+      "deps": [
+        "sales_platform"
+      ],
+      "raci": {
+        "R": "Sales Manager",
+        "A": "Sales Manager",
+        "C": "COO",
+        "I": "CEO"
+      },
+      "order": 2
+    },
+    {
+      "id": "faq_support",
+      "title": "FAQ і підтримка клієнтів у реальному часі",
+      "lane": "lane_sales",
+      "deps": [
+        "orders_processing"
+      ],
+      "raci": {
+        "R": "Sales Manager, SMM",
+        "A": "PM",
+        "C": "SMM",
+        "I": "CEO"
+      },
+      "order": 3
+    },
+    {
+      "id": "welcome_msgs",
+      "title": "Welcome-повідомлення клієнтам",
+      "lane": "lane_sales",
+      "deps": [
+        "sales_platform"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "CEO",
+        "C": "Sales Manager",
+        "I": "команда"
+      },
+      "order": 4
+    },
+    {
+      "id": "real_shipments",
+      "title": "Реальні відправлення",
+      "lane": "lane_logistics",
+      "deps": [
+        "orders_processing"
+      ],
+      "raci": {
+        "R": "Sales",
+        "A": "COO",
+        "C": "COO",
+        "I": "CEO"
+      },
+      "order": 1
+    },
+    {
+      "id": "returns",
+      "title": "Обробка повернень",
+      "lane": "lane_logistics",
+      "deps": [
+        "real_shipments"
+      ],
+      "raci": {
+        "R": "Sales",
+        "A": "COO",
+        "C": "COO",
+        "I": "CEO"
+      },
+      "order": 2
+    },
+    {
+      "id": "popup_location",
+      "title": "Локація заброньована",
+      "lane": "lane_popup",
+      "deps": [
+        "packaging",
+        "teaser_reveal_drop"
+      ],
+      "raci": {
+        "R": "CEO",
+        "A": "CEO",
+        "C": "CEO",
+        "I": "команда"
+      },
+      "order": 1
+    },
+    {
+      "id": "popup_zoning",
+      "title": "Зонування (товар, chill, food)",
+      "lane": "lane_popup",
+      "deps": [
+        "popup_location"
+      ],
+      "raci": {
+        "R": "Lead Product Artisan",
+        "A": "COO",
+        "C": "Sales, SMM",
+        "I": "CEO"
+      },
+      "order": 2
+    },
+    {
+      "id": "popup_decor",
+      "title": "Стіл і декор",
+      "lane": "lane_popup",
+      "deps": [
+        "popup_zoning"
+      ],
+      "raci": {
+        "R": "Lead Product Artisan, Graphic Designer, SMM",
+        "A": "COO",
+        "C": "Sales",
+        "I": "CEO"
+      },
+      "order": 3
+    },
+    {
+      "id": "popup_garlands",
+      "title": "Гірлянди, постери, вази",
+      "lane": "lane_popup",
+      "deps": [
+        "popup_decor"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "COO",
+        "C": "Sales",
+        "I": "CEO"
+      },
+      "order": 4
+    },
+    {
+      "id": "popup_mirrors",
+      "title": "Афіші, дзеркала",
+      "lane": "lane_popup",
+      "deps": [
+        "popup_location",
+        "popup_posters"
+      ],
+      "raci": {
+        "R": "Graphic Designer",
+        "A": "COO",
+        "C": "Brand Designer",
+        "I": "CEO"
+      },
+      "order": 5
+    },
+    {
+      "id": "popup_invite_boxes",
+      "title": "Інвайт-бокси (запальничка + артефакти)",
+      "lane": "lane_popup",
+      "deps": [
+        "mass_production",
+        "popup_invites"
+      ],
+      "raci": {
+        "R": "Sales Manager, LPA",
+        "A": "COO",
+        "C": "команда",
+        "I": "CEO"
+      },
+      "order": 6
+    },
+    {
+      "id": "popup_upcycle",
+      "title": "Зона апсайкл-обміну",
+      "lane": "lane_popup",
+      "deps": [
+        "popup_zoning"
+      ],
+      "raci": {
+        "R": "Lead Product Artisan",
+        "A": "COO",
+        "C": "Sales",
+        "I": "CEO"
+      },
+      "order": 7
+    },
+    {
+      "id": "popup_photozone",
+      "title": "Фотозона/стенд",
+      "lane": "lane_popup",
+      "deps": [
+        "popup_zoning"
+      ],
+      "raci": {
+        "R": "Lead Product Artisan, SMM",
+        "A": "COO",
+        "C": "Sales",
+        "I": "CEO"
+      },
+      "order": 8
+    },
+    {
+      "id": "popup_invites",
+      "title": "Розсилка інвайтів",
+      "lane": "lane_popup",
+      "deps": [
+        "teaser_reveal_drop"
+      ],
+      "raci": {
+        "R": "Sales Manager",
+        "A": "COO",
+        "C": "SMM",
+        "I": "CEO"
+      },
+      "order": 9
+    },
+    {
+      "id": "popup_playlist",
+      "title": "Плейлист і музика",
+      "lane": "lane_popup",
+      "deps": [
+        "popup_script"
+      ],
+      "raci": {
+        "R": "команда",
+        "A": "PM",
+        "C": "-",
+        "I": "-"
+      },
+      "order": 10
+    },
+    {
+      "id": "popup_script",
+      "title": "Сценарій заходу + відповідальні за зони",
+      "lane": "lane_popup",
+      "deps": [
+        "popup_location"
+      ],
+      "raci": {
+        "R": "PM",
+        "A": "COO",
+        "C": "CEO",
+        "I": "команда"
+      },
+      "order": 11
+    },
+    {
+      "id": "popup_feedback",
+      "title": "Фідбек після події",
+      "lane": "lane_popup",
+      "deps": [
+        "popup_photovideo"
+      ],
+      "raci": {
+        "R": "Sales",
+        "A": "PM",
+        "C": "CEO, SMM",
+        "I": "команда"
+      },
+      "order": 12
+    },
+    {
+      "id": "popup_photovideo",
+      "title": "Фото/відео",
+      "lane": "lane_popup",
+      "deps": [
+        "popup_script"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "SMM",
+        "C": "Sales",
+        "I": "CEO"
+      },
+      "order": 13
+    },
+    {
+      "id": "popup_pos",
+      "title": "POS-рішення (термінал/QR, чеки)",
+      "lane": "lane_popup",
+      "deps": [
+        "sales_platform"
+      ],
+      "raci": {
+        "R": "COO",
+        "A": "COO",
+        "C": "Sales Manager",
+        "I": "CEO"
+      },
+      "order": 14
+    },
+    {
+      "id": "popup_inventory",
+      "title": "Інвентаризація для івенту (SKU, ціники)",
+      "lane": "lane_popup",
+      "deps": [
+        "packaging"
+      ],
+      "raci": {
+        "R": "COO",
+        "A": "COO",
+        "C": "Sales Manager",
+        "I": "CEO"
+      },
+      "order": 15
+    },
+    {
+      "id": "popup_planogram",
+      "title": "Планограма столу",
+      "lane": "lane_popup",
+      "deps": [
+        "popup_zoning"
+      ],
+      "raci": {
+        "R": "Lead Product Artisan",
+        "A": "LPA",
+        "C": "Sales",
+        "I": "CEO"
+      },
+      "order": 16
+    },
+    {
+      "id": "popup_sales_scripts",
+      "title": "Скрипти продажів",
+      "lane": "lane_popup",
+      "deps": [
+        "sales_platform"
+      ],
+      "raci": {
+        "R": "Sales",
+        "A": "CEO",
+        "C": "CEO",
+        "I": "CEO"
+      },
+      "order": 17
+    },
+    {
+      "id": "popup_thanks_digest",
+      "title": "Дяку-листи, пост-дайджест після івенту",
+      "lane": "lane_popup",
+      "deps": [
+        "popup_feedback",
+        "popup_photovideo"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "CEO",
+        "C": "Sales Manager",
+        "I": "CEO"
+      },
+      "order": 18
+    },
+    {
+      "id": "mass_production",
+      "title": "Виробництво дропу (сумки, кисети, запальнички)",
+      "lane": "lane_prod_drop",
+      "deps": [
+        "techpack_bom",
+        "qcqa_checklist"
+      ],
+      "raci": {
+        "R": "Lead Product Artisan, COO",
+        "A": "COO",
+        "C": "CEO",
+        "I": "команда"
+      },
+      "order": 1
+    },
+    {
+      "id": "packaging",
+      "title": "Пакування продукції (збірка, коробки, вкладення)",
+      "lane": "lane_prod_drop",
+      "deps": [
+        "final_qc",
+        "tags_attached",
+        "care_labels",
+        "thank_you_cards"
+      ],
+      "raci": {
+        "R": "COO, Brand Designer, LPA",
+        "A": "COO",
+        "C": "Sales Manager, SMM",
+        "I": "CEO"
+      },
+      "order": 2
+    },
+    {
+      "id": "crash_tests",
+      "title": "Краш-тести та перевірка якості виробів",
+      "lane": "lane_prod_drop",
+      "deps": [
+        "mass_production"
+      ],
+      "raci": {
+        "R": "COO, LPA",
+        "A": "COO",
+        "C": "команда",
+        "I": "CEO"
+      },
+      "order": 3
+    },
+    {
+      "id": "final_samples_check",
+      "title": "Фінальна перевірка семплів перед масовим запуском",
+      "lane": "lane_prod_drop",
+      "deps": [
+        "design_corrections"
+      ],
+      "raci": {
+        "R": "Lead Product Artisan",
+        "A": "COO",
+        "C": "CEO",
+        "I": "CEO"
+      },
+      "order": 4
+    },
+    {
+      "id": "tags_attached",
+      "title": "Бірки вшиті (виробництво та пришивання)",
+      "lane": "lane_prod_drop",
+      "deps": [
+        "tags_design",
+        "mass_production"
+      ],
+      "raci": {
+        "R": "Brand Designer, Lead Product Artisan",
+        "A": "COO",
+        "C": "CEO",
+        "I": "CEO"
+      },
+      "order": 5
+    },
+    {
+      "id": "care_labels",
+      "title": "Етикетки (догляд, склад, просто етикетка)",
+      "lane": "lane_prod_drop",
+      "deps": [
+        "labels_design",
+        "mass_production"
+      ],
+      "raci": {
+        "R": "Brand Designer, COO",
+        "A": "COO",
+        "C": "LPA",
+        "I": "CEO"
+      },
+      "order": 6
+    },
+    {
+      "id": "thank_you_cards",
+      "title": "Дяку-картки (вкладиші)",
+      "lane": "lane_prod_drop",
+      "deps": [
+        "inserts_design",
+        "mass_production"
+      ],
+      "raci": {
+        "R": "Brand Designer, COO",
+        "A": "COO",
+        "C": "Sales Manager, LPA",
+        "I": "CEO"
+      },
+      "order": 7
+    },
+    {
+      "id": "final_photo_archive",
+      "title": "Фото/відео архів готових виробів",
+      "lane": "lane_prod_drop",
+      "deps": [
+        "final_qc"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "COO",
+        "C": "Sales",
+        "I": "CEO"
+      },
+      "order": 8
+    },
+    {
+      "id": "final_qc",
+      "title": "Фінальний QC перед пакуванням (checklist на кожен SKU)",
+      "lane": "lane_prod_drop",
+      "deps": [
+        "mass_production",
+        "crash_tests"
+      ],
+      "raci": {
+        "R": "COO, LPA",
+        "A": "COO",
+        "C": "LPA",
+        "I": "команда"
+      },
+      "order": 9
+    },
+    {
+      "id": "teaser_reveal_drop",
+      "title": "Тизер-кампанія → reveal → день дропу",
+      "lane": "lane_mkt_drop",
+      "deps": [
+        "prepr_teaser",
+        "media_plan"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "CEO",
+        "C": "Sales",
+        "I": "CEO"
+      },
+      "order": 1
+    },
+    {
+      "id": "influencers_ops",
+      "title": "Робота з інфлюенсерами",
+      "lane": "lane_mkt_drop",
+      "deps": [
+        "promo_kits"
+      ],
+      "raci": {
+        "R": "Sales Manager",
+        "A": "PM",
+        "C": "SMM",
+        "I": "CEO"
+      },
+      "order": 2
+    },
+    {
+      "id": "launch_posts",
+      "title": "Пости й рілзи під час запуску",
+      "lane": "lane_mkt_drop",
+      "deps": [
+        "content_plan",
+        "visuals_posts"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "PM",
+        "C": "Sales",
+        "I": "CEO"
+      },
+      "order": 3
+    },
+    {
+      "id": "ugc_campaign",
+      "title": "UGC-кампанія",
+      "lane": "lane_mkt_drop",
+      "deps": [
+        "ugc_concept"
+      ],
+      "raci": {
+        "R": "SMM",
+        "A": "CEO",
+        "C": "Sales Manager",
+        "I": "CEO"
+      },
+      "order": 4
+    },
+    {
+      "id": "reviews_cases",
+      "title": "Збір відгуків і кейсів",
+      "lane": "lane_mkt_drop",
+      "deps": [
+        "real_shipments",
+        "ugc_campaign"
+      ],
+      "raci": {
+        "R": "Sales Manager",
+        "A": "COO",
+        "C": "SMM",
+        "I": "CEO"
+      },
+      "order": 5
+    }
+  ]
 }
