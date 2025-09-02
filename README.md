@@ -79,6 +79,10 @@ This project is tailored for internal use, but feel free to fork or adapt it for
 👉 [Open 3apal Task Tracker](https://yevheniia-biliaieva.github.io/3apal-task-tracker/)
 ---
 
+
+
+
+
 # UA version 💙💛
 
 Це легка система для відстеження задач, створена для команди стартапу **3apal**.  
