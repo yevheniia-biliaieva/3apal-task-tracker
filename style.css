@@ -247,7 +247,9 @@ h1 {
 }
 
 /* ---- Choices.js кастомізація під dark theme ---- */
-.choices {
+
+/* Базовий контейнер */
+div.choices {
   background: #0f0f13 !important;
   border: 1px solid #444 !important;
   border-radius: 6px !important;
@@ -255,50 +257,68 @@ h1 {
   font-size: 14px;
 }
 
-.choices__inner {
+/* Внутрішня частина */
+div.choices .choices__inner {
   background: #0f0f13 !important;
-  border: none !important;
-  padding: 6px !important;
-  min-height: 40px;
+  border: 1px solid #444 !important;
   border-radius: 6px !important;
+  padding: 6px 8px !important;
+  min-height: 40px;
   color: #eee !important;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
-.choices__list--multiple .choices__item {
+/* Вибрані елементи (multi-select "чіпси") */
+div.choices .choices__list--multiple .choices__item {
   background: #1e1c2a !important;
   border: 1px solid #6a5acd !important;
+  border-radius: 12px !important;
+  padding: 4px 10px !important;
   color: #cfe1ff !important;
-  border-radius: 6px !important;
-  padding: 4px 8px !important;
-  font-size: 12px;
+  font-size: 12px !important;
+  margin: 2px 4px;
+  transition: background 0.2s, border 0.2s;
+}
+div.choices .choices__list--multiple .choices__item:hover {
+  background: #2a2a40 !important;
+  border-color: #8a7bff !important;
 }
 
-.choices__list--dropdown {
+/* Dropdown */
+div.choices .choices__list--dropdown {
   background: #15121f !important;
   border: 1px solid #333 !important;
   border-radius: 6px !important;
-  margin-top: 2px;
+  margin-top: 4px;
+  padding: 4px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  z-index: 200;
 }
 
-.choices__list--dropdown .choices__item {
+/* Dropdown item */
+div.choices .choices__list--dropdown .choices__item {
+  background: transparent !important;
+  padding: 8px 12px !important;
   color: #eee !important;
-  padding: 6px 10px;
   font-size: 13px;
+  cursor: pointer;
 }
-
-.choices__list--dropdown .choices__item--selectable.is-highlighted {
-  background: #2a3550 !important;
+div.choices .choices__list--dropdown .choices__item:hover {
+  background: #202a44 !important;
   color: #cfe1ff !important;
 }
 
-.choices__input {
-  background: #0f121a !important;
-  color: #eaeaea !important;
-  border: none !important;
-  padding: 6px !important;
-  font-size: 13px;
+/* Стан "вибрано" */
+div.choices .choices__list--dropdown .choices__item.is-highlighted {
+  background: #2e804a !important;
+  color: #fff !important;
 }
 
-.choices__placeholder {
+/* Placeholder */
+div.choices[data-type*="select-multiple"] .choices__input::placeholder,
+div.choices[data-type*="select-one"] .choices__placeholder {
   color: #888 !important;
+  opacity: 0.7;
 }
