@@ -1313,9 +1313,7 @@
       "title": "hnmgmn",
       "lane": "lane_strategy",
       "deps": [
-        "positioning",
-        "popup_posters",
-        "popup_mirrors"
+        "positioning"
       ],
       "raci": {
         "R": "",
