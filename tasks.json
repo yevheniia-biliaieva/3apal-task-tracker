@@ -50,7 +50,7 @@
     {
       "id": "brand_doc",
       "title": "Бренд-документ",
-      "lane": "",
+      "lane": "lane_strategy",
       "deps": [
         "positioning"
       ],
@@ -78,7 +78,7 @@
     {
       "id": "content_pillars",
       "title": "Контент-піллари",
-      "lane": "",
+      "lane": "lane_strategy",
       "deps": [
         "brand_doc"
       ],
@@ -1291,19 +1291,6 @@
       },
       "order": 5
     },
-    {
-      "id": "Тест",
-      "title": "л",
-      "lane": "",
-      "deps": [
-        "brand_doc"
-      ],
-      "raci": {
-        "R": "ка",
-        "A": "а",
-        "C": "а",
-        "I": "а"
-      },
       "order": 83
     }
   ]
