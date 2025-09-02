@@ -1296,7 +1296,9 @@
       "id": "task_1756816062218",
       "title": "тест",
       "lane": "",
-      "deps": [],
+      "deps": [
+        "pouch_patterns"
+      ],
       "raci": {
         "R": "",
         "A": "",
