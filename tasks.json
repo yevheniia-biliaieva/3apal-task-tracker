@@ -76,8 +76,10 @@
     {
       "id": "content_pillars",
       "title": "Контент-піллари",
-      "lane": "lane_strategy",
-      "deps": [],
+      "lane": "",
+      "deps": [
+        "brand_doc"
+      ],
       "raci": {
         "R": "SMM",
         "A": "CEO",
