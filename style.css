@@ -30,14 +30,14 @@ h1 {
 }
 
 .field {
-	flex: 1 1 200px; /* мінімум 200px, росте */
+	flex: 1 1 200px; 
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
 }
 
 .field.last {
-	flex: 2 1 300px; /* останнє поле росте вдвічі */
+	flex: 2 1 300px;
 }
 
 .field label {
@@ -47,7 +47,6 @@ h1 {
 }
 
 .field input {
-	/* width: 100%; */
 	padding: 6px 8px;
 	background: #0f121a;
 	color: #eaeaea;
@@ -85,7 +84,7 @@ h1 {
 /* ----- Lanes & Tasks ----- */
 .wrapper {
 	display: flex;
-	flex-wrap: wrap; /* тепер колонки переносяться вниз */
+	flex-wrap: wrap; 
 	gap: 20px;
 	padding-bottom: 40px;
 }
@@ -95,7 +94,7 @@ h1 {
 	border: 1px solid #333;
 	border-radius: 8px;
 	padding: 10px;
-	flex: 1 1 300px; /* займає мінімум 300px, далі росте */
+	flex: 1 1 300px;
 	max-width: 400px;
 }
 
@@ -139,8 +138,7 @@ h1 {
 	margin-bottom: 4px;
 }
 
-.task .deps,
-.task .unlocks {
+.task .deps {
 	font-size: 12px;
 	color: #888;
 }
@@ -222,15 +220,6 @@ h1 {
 	margin-top: 10px;
 }
 
-.modal-actions button {
-	background: #2e804a;
-	color: #fff;
-	border: none;
-	border-radius: 4px;
-	padding: 6px 12px;
-	cursor: pointer;
-}
-
 .modal-actions .btn {
   border: none;
   border-radius: 4px;
@@ -257,3 +246,59 @@ h1 {
   background: #666;
 }
 
+/* ---- Choices.js кастомізація під dark theme ---- */
+.choices {
+  background: #0f0f13 !important;
+  border: 1px solid #444 !important;
+  border-radius: 6px !important;
+  color: #eee !important;
+  font-size: 14px;
+}
+
+.choices__inner {
+  background: #0f0f13 !important;
+  border: none !important;
+  padding: 6px !important;
+  min-height: 40px;
+  border-radius: 6px !important;
+  color: #eee !important;
+}
+
+.choices__list--multiple .choices__item {
+  background: #1e1c2a !important;
+  border: 1px solid #6a5acd !important;
+  color: #cfe1ff !important;
+  border-radius: 6px !important;
+  padding: 4px 8px !important;
+  font-size: 12px;
+}
+
+.choices__list--dropdown {
+  background: #15121f !important;
+  border: 1px solid #333 !important;
+  border-radius: 6px !important;
+  margin-top: 2px;
+}
+
+.choices__list--dropdown .choices__item {
+  color: #eee !important;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.choices__list--dropdown .choices__item--selectable.is-highlighted {
+  background: #2a3550 !important;
+  color: #cfe1ff !important;
+}
+
+.choices__input {
+  background: #0f121a !important;
+  color: #eaeaea !important;
+  border: none !important;
+  padding: 6px !important;
+  font-size: 13px;
+}
+
+.choices__placeholder {
+  color: #888 !important;
+}
