@@ -39,9 +39,13 @@ This project was designed to help me as a COO structure dependencies, track prog
 ## 📂 Repository structure
 
 ├── index.html        # Main entry point
+
 ├── style.css         # Custom styles (dark UI system)
+
 ├── main.js           # Core logic: UI, tasks, GitHub sync
+
 ├── tasks.json        # Source of truth for tasks
+
 └── state.json        # Current progress state (done tasks)
 
 ---
@@ -71,6 +75,8 @@ It serves both as:
 
 This project is tailored for internal use, but feel free to fork or adapt it for your own workflow.
 
+### 🔗 Live demo
+👉 [Open 3apal Task Tracker](https://yevheniia-biliaieva.github.io/3apal-task-tracker/)
 ---
 
 #UA 🇺🇦
@@ -111,10 +117,15 @@ This project is tailored for internal use, but feel free to fork or adapt it for
 ---
 
 ## 📂 Структура репозиторію
+
 ├── index.html # Точка входу
+
 ├── style.css # Кастомні стилі (dark UI system)
+
 ├── main.js # Основна логіка: UI, задачі, GitHub-синхронізація
+
 ├── tasks.json # Джерело правди для задач
+
 └── state.json # Поточний стан прогресу (виконані задачі)
 
 ---
@@ -140,3 +151,7 @@ This project is tailored for internal use, but feel free to fork or adapt it for
 
 ## 🤝 Контрибʼютинг
 Цей проєкт створений під внутрішні потреби, але ви можете форкнути чи адаптувати його під свій процес.
+
+### 🔗 Live demo
+👉 [Відкрити 3apal Task Tracker](https://yevheniia-biliaieva.github.io/3apal-task-tracker/)
+
