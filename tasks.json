@@ -1307,21 +1307,6 @@
         "I": ""
       },
       "order": 83
-    },
-    {
-      "id": "task_1756825351921",
-      "title": "hnmgmn",
-      "lane": "lane_strategy",
-      "deps": [
-        "positioning"
-      ],
-      "raci": {
-        "R": "",
-        "A": "",
-        "C": "",
-        "I": ""
-      },
-      "order": 84
     }
   ]
 }
