@@ -1291,22 +1291,6 @@
         "I": "CEO"
       },
       "order": 5
-    },
-    {
-      "id": "task_1756816062218",
-      "title": "тест",
-      "lane": "",
-      "deps": [
-        "popup_posters",
-        "pouch_patterns"
-      ],
-      "raci": {
-        "R": "",
-        "A": "",
-        "C": "",
-        "I": ""
-      },
-      "order": 83
     }
   ]
 }
